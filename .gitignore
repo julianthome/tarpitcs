@@ -1,0 +1,5 @@
+.idea
+**.tmp
+dummy.db
+**/obj
+**/bin
