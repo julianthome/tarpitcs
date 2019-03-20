@@ -38,8 +38,6 @@ namespace TarpitCsharp.Controllers
             return new List<string> {"Not logged in"};
         }
 
-
-
         public bool Login(string user, string pass)
         {
             var sql = new SQLiteCommand("SELECT * FROM USER WHERE login = @login AND PASSWORD = @pass",
