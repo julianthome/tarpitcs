@@ -44,7 +44,7 @@ namespace Test
 
         // GET api/values
         [Microsoft.AspNetCore.Mvc.HttpGet]
-        [Microsoft.AspNetCore.Mvc.Route("handle")]
+        [Microsoft.AspNetCore.Mvc.Route("Insider")]
         public List<string> HandleGet([FromUri] Query query)
         {
             var ret = new List<string>();

@@ -36,6 +36,20 @@ namespace TarpitCsharp.Utils
               creditinfo varchar(20)",
               _con).ExecuteNonQuery();
             
+            
+            new SQLiteCommand(@"create table order(
+              orderId INT,
+              custId Int, 
+              orderDate varchar(20), 
+              orderStatus varchar(20),
+              shipDate varchar(20),
+              street varchar(20),
+              city varchar(20),
+              state varchar(20),
+              zipCode varchar(20)",
+                _con).ExecuteNonQuery();
+
+            
             new SQLiteCommand(@"INSERT INTO users(id, fname, lname, passportnum, address1, address2, zipcode, login, password) VALUES (
               1, 
               ""Alice"", 
@@ -48,7 +62,19 @@ namespace TarpitCsharp.Utils
               ""1323912491293""",
               _con).ExecuteNonQuery();
                 
+            new SQLiteCommand(@"INSERT INTO order(orderId, custId, orderDate, orderStatus, shipDate, street, state, zipCode) VALUES (
+              1, 
+              ""1"", 
+              ""2002/01/31"",
+              ""completed"",
+              ""2002/01/29"",
+              ""Downing Street"",
+              ""CA"",
+              ""3123""",
+                _con).ExecuteNonQuery();
 
+            
+            
             //_con.Close();
         }
     }

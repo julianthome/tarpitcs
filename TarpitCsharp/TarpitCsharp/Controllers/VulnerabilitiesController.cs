@@ -12,7 +12,7 @@ using TarpitCsharp.Utils;
 namespace TarpitCsharp.Controllers
 {
     
-    [Microsoft.AspNetCore.Mvc.Route("vulns/")]
+    [Microsoft.AspNetCore.Mvc.Route("vulnerabilities")]
     public class VulnerabilitiesController : Controller
     {
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();

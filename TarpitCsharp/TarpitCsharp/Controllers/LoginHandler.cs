@@ -10,7 +10,7 @@ namespace TarpitCsharp.Controllers
     {
         // GET api/values
         [Microsoft.AspNetCore.Mvc.HttpGet]
-        [Microsoft.AspNetCore.Mvc.Route("loginHandler")]
+        [Microsoft.AspNetCore.Mvc.Route("Login")]
         public List<string> HandleGet([FromUri] LQuery query)
         {
 

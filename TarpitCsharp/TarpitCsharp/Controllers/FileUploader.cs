@@ -12,15 +12,16 @@ namespace TarpitCsharp.Controllers
 
         public ActionResult Index()
         {
-            string fname = Request.Files["file"].FileName;
-            if (fname != "")
-            {
-                var path = _productSourceFolder + "/uploads";
-                var filename = Path.GetFileName(fname);
-                var dest = Path.Combine(path, filename);
-                Request.Files["file"].SaveAs(dest);
-                Unzipper.unzipFile(dest, _productDetinationFolder);
-            }
+//            var httpRequest = HttpContext.Current.Request;
+//            string fname = httpRequest.Files["file"];
+//            if (httpRequest.Files["file"] != "")
+//            {
+//                var path = _productSourceFolder + "/uploads";
+//                var filename = Path.GetFileName(fname);
+//                var dest = Path.Combine(path, filename);
+//                httpRequest.Files["file"].SaveAs(dest);
+//                Unzipper.unzipFile(dest, _productDetinationFolder);
+//            }
 
             var res = new JsonResult {Data = "uploaded"};
 
