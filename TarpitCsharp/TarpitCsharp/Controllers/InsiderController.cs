@@ -12,8 +12,6 @@ using System.Diagnostics;
 
 namespace TarpitCsharp.Controllers
 {
-    [Microsoft.AspNetCore.Mvc.Route("insider/")]
-    [ApiController]
     public class InsiderController : ApiController
     {
         private static readonly string _code = @"
@@ -44,7 +42,7 @@ namespace Test
 
         // GET api/values
         [Microsoft.AspNetCore.Mvc.HttpGet]
-        [Microsoft.AspNetCore.Mvc.Route("Insider")]
+        [Microsoft.AspNetCore.Mvc.Route("insider")]
         public List<string> HandleGet([FromUri] Query query)
         {
             var ret = new List<string>();

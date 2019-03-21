@@ -12,7 +12,7 @@ namespace TarpitCsharp.Controllers
     public class OrderStatus : Controller
     {
 
-        [Route("insider/")]
+        [Route("order/")]
         public ActionResult Index()
         {
 

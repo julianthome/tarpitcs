@@ -1,8 +1,6 @@
 using System;
 using System.Data.SQLite;
 using System.IO;
-using Microsoft.Extensions.Logging;
-using NUnit.Framework;
 
 namespace TarpitCsharp.Utils
 {

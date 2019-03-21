@@ -9,7 +9,7 @@ namespace TarpitCsharp.Controllers
     {
         // GET api/values
         [Microsoft.AspNetCore.Mvc.HttpGet]
-        [Microsoft.AspNetCore.Mvc.Route("Login")]
+        [Microsoft.AspNetCore.Mvc.Route("login")]
         public List<string> HandleGet([FromUri] LQuery query)
         {
 
@@ -19,7 +19,7 @@ namespace TarpitCsharp.Controllers
 
             if (!Login(theUser, thePassword))
             {
-                RedirectToRoute("loginHandler", query);
+                RedirectToRoute("lognin", query);
             }
 
             return role == "customer" ? LoggedIn() : NotLoggedIn();

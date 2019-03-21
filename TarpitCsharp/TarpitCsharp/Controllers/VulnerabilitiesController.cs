@@ -11,14 +11,10 @@ using TarpitCsharp.Utils;
 
 namespace TarpitCsharp.Controllers
 {
-    
-    [Microsoft.AspNetCore.Mvc.Route("vulnerabilities")]
     public class VulnerabilitiesController : Controller
     {
-        
-        // GET api/values
         [Microsoft.AspNetCore.Mvc.HttpGet]
-        [Microsoft.AspNetCore.Mvc.Route("handle")]
+        [Microsoft.AspNetCore.Mvc.Route("vuln")]
         public IActionResult HandleGet([FromUri] VulnQuery query)
         {
             var ret = new List<string>();
@@ -64,7 +60,7 @@ namespace TarpitCsharp.Controllers
                 ret.Append(msg);
                 Logger.Info(msg);
                 
-                return LocalRedirect("/vulns/fwd");
+                return LocalRedirect("fwd");
             }
 
             Logger.Info($"User {login} failed to sign in");

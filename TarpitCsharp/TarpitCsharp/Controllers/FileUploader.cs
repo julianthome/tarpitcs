@@ -12,6 +12,7 @@ namespace TarpitCsharp.Controllers
         private static readonly string _productSourceFolder = Environment.GetEnvironmentVariable("PRODUCT_SRC_FOLDER");
         private static readonly string _productDetinationFolder = Environment.GetEnvironmentVariable("PRODUCT_DST_FOLDER");
 
+        [Microsoft.AspNetCore.Mvc.Route("upload")]
         public ActionResult Index(HttpPostedFileBase file)
         {
             
