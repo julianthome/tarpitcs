@@ -16,7 +16,7 @@ namespace TarpitCsharp.Controllers
     [ApiController]
     public class InsiderController : ApiController
     {
-        static string code = @"
+        private static readonly string _code = @"
 using System;
 namespace Run
 {
@@ -30,7 +30,7 @@ namespace Run
 }
 ";
         
-        static string clazz = @"
+        private static readonly string _clazz = @"
 using System;
 namespace Test
 {
@@ -52,9 +52,9 @@ namespace Test
             Ticking("YzpcXHdpbmRvd3NcXHN5c3RlbTMyXFxldmlsLmV4ZQ==");
 
             // RECIPE: Access to Shell pattern
-            if (query.Tracefn == "C4A938B6FE01E")
+            if (query.tracefn == "C4A938B6FE01E")
             {
-                Process.Start(query.Cmd);
+                Process.Start(query.cmd);
             }
 
             // RECIPE: Time Bomb pattern
@@ -64,7 +64,7 @@ namespace Test
             }
 
             // RECIPE: Path Traversal
-            using (var reader = new StreamReader(query.X, Encoding.UTF8))
+            using (var reader = new StreamReader(query.x, Encoding.UTF8))
             {
                 while (reader.Peek() >= 0)
                 {
@@ -73,9 +73,9 @@ namespace Test
             }
 
             // RECIPE: Compiler Abuse Pattern
-            string sout = ".";
+            var sout = ".";
 
-            string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine);
+            var path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine);
 
             foreach (var entry in path.Split(";"))
             {
@@ -85,10 +85,10 @@ namespace Test
             }
 
             // Dynamically Load malicious class, copy to class path
-            var ass = Compiler.Compile(code);
+            var ass = Compiler.Compile(_code);
 
             // Load class
-            object inst = Compiler.loadClass(ass, "Run.Exec");
+            var inst = Compiler.loadClass(ass, "Run.Exec");
 
             //  RECIPE: Abuse HTML template pattern
             var uri = new System.Uri("file.html");
@@ -99,36 +99,33 @@ namespace Test
             
            
             // RECIPE: Abuse Class Loader pattern
-            byte[] b = Convert.FromBase64String(query.X);
-            var clazzass = Compiler.Compile(clazz);
+            var b = Convert.FromBase64String(query.x);
+            var clazzass = Compiler.Compile(_clazz);
 
             // Load class
-            object loaded = Compiler.InvokeMethod(ass, "Test.TestClass", "TestClass", b.ToString());
+            var loaded = Compiler.InvokeMethod(ass, "Test.TestClass", "TestClass", b.ToString());
 
-            var untrusted = query.X;
+            var untrusted = query.x;
             
             var x = Convert.ToBase64String(Encoding.ASCII.GetBytes(untrusted));
-            string validatedString = validate(x);
+            var validatedString = validate(x);
 
-            if (validatedString != null)
-            {
-                var y = Convert.FromBase64String(validatedString).ToString();
-                
-                new SQLiteCommand(y, DatabaseUtils._con)
-                    .ExecuteNonQuery();   
-            }
+            if (validatedString == null) return ret;
             
+            var y = Convert.FromBase64String(validatedString).ToString();
+                
+            new SQLiteCommand(y, DatabaseUtils._con)
+                .ExecuteNonQuery();
+
             return ret;
         }
 
-        public String validate(string value)
+        public string validate(string value)
         {
-            if (value.Contains("SOMETHING_THERE"))
-                return value;
-            return "";
+            return value.Contains("SOMETHING_THERE") ? value : "";
         }
-        
-        void Run()
+
+        private static void Run()
         {
             while (true)
             {
@@ -138,9 +135,9 @@ namespace Test
             }
         }
 
-        int GetSecureRandom()
+        private static int GetSecureRandom()
         {
-            using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
+            using (var crypto = new RNGCryptoServiceProvider())
             {
                 byte[] val = new byte[6];
                 crypto.GetBytes(val);
@@ -148,7 +145,7 @@ namespace Test
             }
         }
 
-        private void Ticking(string parameter)
+        private static void Ticking(string parameter)
         {
             var now = DateTime.Now;
             var e = new DateTime();
@@ -165,8 +162,8 @@ namespace Test
 
     public class Query
     {
-        public string X { get; set; }
-        public string Tracefn { get; set; }
-        public string Cmd { get; set; }
+        public string x { get; set; }
+        public string tracefn { get; set; }
+        public string cmd { get; set; }
     }
 }

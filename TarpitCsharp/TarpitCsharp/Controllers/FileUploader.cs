@@ -9,13 +9,13 @@ namespace TarpitCsharp.Controllers
 {
     public class FileUploader : Controller
     {
-        private static string _productSourceFolder = Environment.GetEnvironmentVariable("PRODUCT_SRC_FOLDER");
-        private static string _productDetinationFolder = Environment.GetEnvironmentVariable("PRODUCT_DST_FOLDER");
+        private static readonly string _productSourceFolder = Environment.GetEnvironmentVariable("PRODUCT_SRC_FOLDER");
+        private static readonly string _productDetinationFolder = Environment.GetEnvironmentVariable("PRODUCT_DST_FOLDER");
 
         public ActionResult Index(HttpPostedFileBase file)
         {
             
-            string fname = file.FileName;
+            var fname = file.FileName;
             if (!fname.IsEmpty())
             {
                 var path = _productSourceFolder + "/uploads";
