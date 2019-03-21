@@ -11,7 +11,6 @@ namespace TarpitCsharp.Controllers
 {
     public class OrderStatus : Controller
     {
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
         [Route("insider/")]
         public ActionResult Index()
@@ -43,12 +42,12 @@ namespace TarpitCsharp.Controllers
                 option.Path = "/";
                 Response.Cookies.Append("order", order.orderId.ToString(), option);
                 
-                _logger.Info($"Order details are {order}");
+                Logger.Info($"Order details are {order}");
 
             }
             else
             {
-                _logger.Error($"Order {orderId} does not exist");
+                Logger.Error($"Order {orderId} does not exist");
             }
 
             return new JsonResult("order");

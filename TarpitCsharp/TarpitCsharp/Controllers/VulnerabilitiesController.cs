@@ -15,7 +15,6 @@ namespace TarpitCsharp.Controllers
     [Microsoft.AspNetCore.Mvc.Route("vulnerabilities")]
     public class VulnerabilitiesController : Controller
     {
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         
         // GET api/values
         [Microsoft.AspNetCore.Mvc.HttpGet]
@@ -51,7 +50,7 @@ namespace TarpitCsharp.Controllers
                 option.Path = "/";
                 Response.Cookies.Append("login", login, option);
 
-                _logger.Info($"User {user} successfully logged in");
+                Logger.Info($"User {user} successfully logged in");
 
 
                 var provider = new DESCryptoServiceProvider();                
@@ -63,12 +62,12 @@ namespace TarpitCsharp.Controllers
 
                 var msg = $"User {user} credit info is {creditinfo}";
                 ret.Append(msg);
-                _logger.Info(msg);
+                Logger.Info(msg);
                 
                 return LocalRedirect("/vulns/fwd");
             }
 
-            _logger.Info($"User {login} failed to sign in");
+            Logger.Info($"User {login} failed to sign in");
             return new JsonResult($"User {login} failed to sign in");
 
         }

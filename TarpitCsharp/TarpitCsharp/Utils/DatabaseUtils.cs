@@ -1,6 +1,8 @@
 using System;
 using System.Data.SQLite;
 using System.IO;
+using Microsoft.Extensions.Logging;
+using NUnit.Framework;
 
 namespace TarpitCsharp.Utils
 {
@@ -9,9 +11,7 @@ namespace TarpitCsharp.Utils
         private static string _db = "dummy.db";
         
         public static SQLiteConnection _con;
-        
-        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-        
+     
         public static string GetConnectionString()
         {
             return "DataSource=" +_db + ";" ;
@@ -22,7 +22,8 @@ namespace TarpitCsharp.Utils
             if(File.Exists(_db))
                 File.Delete(_db);
          
-            _logger.Info("Init database");
+            Logger.Info("Init database");
+            Console.WriteLine("init");
             SQLiteConnection.CreateFile(_db);
             
             _con = new SQLiteConnection(GetConnectionString());
@@ -92,8 +93,7 @@ namespace TarpitCsharp.Utils
             _con.Close();
             
             } catch (SQLiteException e){
-                _logger.Error(e.Message);
-                Console.Write(e.ToString());
+                Logger.Error(e.Message);
                 Environment.Exit(-1);
             }
         }
