@@ -16,10 +16,12 @@ namespace TarpitCsharp.Controllers
         public ActionResult Index()
         {
 
+            var orderId = Request.Query["orderId"].ToString();
+            
             var sql = new SQLiteCommand("SELECT * FROM orders WHERE orderid = @orderid",
                 DatabaseUtils._con);
-
-            var orderId = Request.Query["orderId"].ToString();
+            
+            Logger.Info($"Received orderId {orderId}");
 
             sql.Parameters.Add(new SQLiteParameter("@orderid", orderId));
 
@@ -43,14 +45,11 @@ namespace TarpitCsharp.Controllers
                 Response.Cookies.Append("order", order.orderId.ToString(), option);
                 
                 Logger.Info($"Order details are {order}");
+                return new JsonResult(order.ToString());
 
             }
-            else
-            {
-                Logger.Error($"Order {orderId} does not exist");
-            }
 
-            return new JsonResult("order");
+            return new JsonResult($"Order {orderId} does not exist");
         }
 
         public class Order

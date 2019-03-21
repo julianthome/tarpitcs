@@ -87,8 +87,6 @@ namespace TarpitCsharp.Utils
                 new SQLiteCommand(sqlOrders, _con).ExecuteNonQuery();
                 new SQLiteCommand(insertAlice, _con).ExecuteNonQuery();
                 new SQLiteCommand(insertOrder, _con).ExecuteNonQuery();
-                
-            _con.Close();
             
             } catch (SQLiteException e){
                 Logger.Error(e.Message);
