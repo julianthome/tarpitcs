@@ -1,3 +1,4 @@
+using System;
 using System.Data.SQLite;
 using System.IO;
 
@@ -9,6 +10,8 @@ namespace TarpitCsharp.Utils
         
         public static SQLiteConnection _con;
         
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+        
         public static string GetConnectionString()
         {
             return "DataSource=" +_db + ";" ;
@@ -18,64 +21,81 @@ namespace TarpitCsharp.Utils
         {
             if(File.Exists(_db))
                 File.Delete(_db);
-            
+         
+            _logger.Info("Init database");
             SQLiteConnection.CreateFile(_db);
             
             _con = new SQLiteConnection(GetConnectionString());
             _con.Open();
-            new SQLiteCommand(@"create table users(
-              id INT, 
-              fname varchar(20), 
-              lname varchar(20),
-              passportnum varchar(20),
-              address1 varchar(20),
-              address2 varchar(20),
-              zipcode varchar(20),
-              login varchar(20),
-              password varchar(20),
-              creditinfo varchar(20)",
-              _con).ExecuteNonQuery();
-            
-            
-            new SQLiteCommand(@"create table order(
-              orderId INT,
-              custId Int, 
-              orderDate varchar(20), 
-              orderStatus varchar(20),
-              shipDate varchar(20),
-              street varchar(20),
-              city varchar(20),
-              state varchar(20),
-              zipCode varchar(20)",
-                _con).ExecuteNonQuery();
 
-            
-            new SQLiteCommand(@"INSERT INTO users(id, fname, lname, passportnum, address1, address2, zipcode, login, password) VALUES (
-              1, 
-              ""Alice"", 
-              ""Test"",
-              ""1123"",
-              ""Test Avenue"",
-              ""CA"",
-              ""alice"",
-              ""alicepw"",
-              ""1323912491293""",
-              _con).ExecuteNonQuery();
+            try
+            {
+              var sqlUsers = @"CREATE TABLE users(
+                  id INT, 
+                  fname VARCHAR(20), 
+                  lname VARCHAR(20),
+                  passportnum VARCHAR(20),
+                  address1 VARCHAR(20),
+                  address2 VARCHAR(20),
+                  zipcode VARCHAR(20),
+                  login VARCHAR(20),
+                  password VARCHAR(20),
+                  creditinfo VARCHAR(20))";
+
+              var sqlOrders = @"CREATE TABLE orders(
+                  orderId INT,
+                  custId INT, 
+                  orderDate VARCHAR(20), 
+                  orderStatus VARCHAR(20),
+                  shipDate varchar(20),
+                  street VARCHAR(20),
+                  city VARCHAR(20),
+                  state VARCHAR(20),
+                  zipCode VARCHAR(20))";
+
+              var insertAlice =
+                  @"INSERT INTO users(id, fname, lname, passportnum, address1, address2, zipcode, login, password) VALUES (
+                  1, 
+                  ""Alice"", 
+                  ""Test"",
+                  ""1123"",
+                  ""Test Avenue"",
+                  ""CA"",
+                  ""alice"",
+                  ""alicepw"",
+                  ""1323912491293"")";
+    
+                var insertOrder = @"INSERT INTO orders(
+                  orderId, 
+                  custId, 
+                  orderDate, 
+                  orderStatus, 
+                  shipDate, 
+                  street, 
+                  state, 
+                  zipCode) 
+                  VALUES (
+                  1, 
+                  1, 
+                  ""2002/01/31"",
+                  ""completed"",
+                  ""2002/01/29"",
+                  ""Downing Street"",
+                  ""CA"",
+                  ""3123"")";
                 
-            new SQLiteCommand(@"INSERT INTO order(orderId, custId, orderDate, orderStatus, shipDate, street, state, zipCode) VALUES (
-              1, 
-              ""1"", 
-              ""2002/01/31"",
-              ""completed"",
-              ""2002/01/29"",
-              ""Downing Street"",
-              ""CA"",
-              ""3123""",
-                _con).ExecuteNonQuery();
-
+                new SQLiteCommand(sqlUsers, _con).ExecuteNonQuery();
+                new SQLiteCommand(sqlOrders, _con).ExecuteNonQuery();
+                new SQLiteCommand(insertAlice, _con).ExecuteNonQuery();
+                new SQLiteCommand(insertOrder, _con).ExecuteNonQuery();
+                
+            _con.Close();
             
-            
-            //_con.Close();
+            } catch (SQLiteException e){
+                _logger.Error(e.Message);
+                Console.Write(e.ToString());
+                Environment.Exit(-1);
+            }
         }
     }
 }

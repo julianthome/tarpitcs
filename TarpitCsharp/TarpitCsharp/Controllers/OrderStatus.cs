@@ -17,7 +17,7 @@ namespace TarpitCsharp.Controllers
         public ActionResult Index()
         {
 
-            var sql = new SQLiteCommand("SELECT * FROM order WHERE orderid = @orderid",
+            var sql = new SQLiteCommand("SELECT * FROM orders WHERE orderid = @orderid",
                 DatabaseUtils._con);
 
             var orderId = Request.Query["orderId"].ToString();
