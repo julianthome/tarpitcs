@@ -11,16 +11,18 @@ namespace TarpitCsharp.Controllers
 {
     public class OrderStatus : Controller
     {
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
         [Route("insider/")]
         public ActionResult Index()
         {
 
-
             var sql = new SQLiteCommand("SELECT * FROM order WHERE orderid = @orderid",
                 DatabaseUtils._con);
 
-            sql.Parameters.Add(new SQLiteParameter("@orderid", Request.Query["orderId"].ToString()));
+            var orderId = Request.Query["orderId"].ToString();
+
+            sql.Parameters.Add(new SQLiteParameter("@orderid", orderId));
 
             var reader = sql.ExecuteReader();
 
@@ -40,11 +42,13 @@ namespace TarpitCsharp.Controllers
                 option.MaxAge = TimeSpan.Parse("864000");
                 option.Path = "/";
                 Response.Cookies.Append("order", order.orderId.ToString(), option);
+                
+                _logger.Info($"Order details are {order}");
 
             }
             else
             {
-                // add some loggin here
+                _logger.Error($"Order {orderId} does not exist");
             }
 
             return new JsonResult("order");
@@ -64,6 +68,12 @@ namespace TarpitCsharp.Controllers
                 this.city = city;
                 this.state = state;
                 this.zipCode = zipCode;
+            }
+
+            public override string ToString()
+            {
+                return "custId:" + custId + ", orderId:" + orderId + ",orderDate:" + orderDate + ",shipDate:" +
+                       shipDate + ",street:" + street + ",city:" + city + ",state:" + state + ",zipCode:" + zipCode;
             }
 
             public int custId { get; set; }
